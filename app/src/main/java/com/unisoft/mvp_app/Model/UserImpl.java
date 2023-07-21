@@ -30,13 +30,8 @@ public class UserImpl implements IUser {
             return 1;
         } else if (TextUtils.isEmpty(getPassWord())) {
             return 2;
-
         } else if (getPassWord().length() < 6) {
-
             return 3;
-
         } else return -1;
-
-
     }
 }

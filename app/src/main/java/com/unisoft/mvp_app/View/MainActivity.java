@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.unisoft.mvp_app.Presenter.ILoginPresenter;
 import com.unisoft.mvp_app.Presenter.LoginPresenterImpl;
@@ -30,13 +31,14 @@ public class MainActivity extends AppCompatActivity implements ILoginView {
         progressBar = findViewById(R.id.progressBar);
 
         loginPresenter = new LoginPresenterImpl(this);
-        // loginPresenter.setProgressBarVisibility(View.INVISIBLE);
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        loginPresenter.setProgressBarVisibility(View.INVISIBLE);
 
-            }
+        loginBtn.setOnClickListener(v -> {
+
+            loginPresenter.setProgressBarVisibility(View.VISIBLE);
+            loginPresenter.doLogin(email.getText().toString().trim(), password.getText().toString().trim());
+
         });
 
 
@@ -44,16 +46,20 @@ public class MainActivity extends AppCompatActivity implements ILoginView {
 
     @Override
     public void onLoginSuccess(String msg) {
+        loginPresenter.setProgressBarVisibility(View.INVISIBLE);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
     }
 
     @Override
     public void onLoginError(String msg) {
 
+        loginPresenter.setProgressBarVisibility(View.INVISIBLE);
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onSetProgressBarVisibility(int visibility) {
-
+        progressBar.setVisibility(visibility);
     }
 }
